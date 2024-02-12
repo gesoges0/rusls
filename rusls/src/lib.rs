@@ -68,6 +68,10 @@ fn format_output(paths: &[PathBuf]) -> MyResult<String> {
     OK(format!("{}", table))
 }
 
+fn format_mode(mode: u32) -> String {
+    unimplemented!();
+}
+
 pub fn run(config: Config) -> MyResult<()> {
     let paths = find_files(&config.paths, config.show_hidden)?;
     for path in paths {
@@ -82,7 +86,7 @@ fn find_files(paths: &[String], show_hidden: bool) -> MyResult<Vec<PathBuf>> {
 
 #[cfg(test)]
 mod test {
-    use super::find_files;
+    use super::{find_files, format_mode};
 
     #[test]
     fn test_find_files() {
@@ -157,5 +161,11 @@ mod test {
                 "tests/inputs/fox.txt",
             ]
         );
+    }
+
+    #[test]
+    fn test_format_mode() {
+        assert_eq!(format_mode(0o755), "rwxr-xr-x");
+        assert_eq!(format_mode(0o421), "r---w---x");
     }
 }
